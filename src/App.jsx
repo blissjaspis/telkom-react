@@ -1,13 +1,18 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
+import Header from "./components/layouts/Header";
+import Footer from "./components/layouts/Footer";
+import Welcome from "./components/welcome";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
 
   return (
-    <div className="container mx-auto">
-      <h1 className="text-red-500">Telkom React</h1>
+    <div>
+      <Header />
+      <Welcome />
+      <Footer />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
