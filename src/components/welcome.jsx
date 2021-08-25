@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import ListItem from "./ListItem";
 
-function welcome() {
+function Welcome() {
+  const [storeToReadOnly, setstoreToReadOnly] = useState("");
   const [repos, setrepo] = useState([]);
   const [search, setsearch] = useState("");
   const [textNotFound, settextNotFound] = useState("");
@@ -20,7 +21,12 @@ function welcome() {
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    fetchRepo(search);
+    if (search == "") {
+      return;
+    }
+    const data = search.toLocaleLowerCase();
+    setstoreToReadOnly(data);
+    fetchRepo(data);
     setsearch("");
   };
 
@@ -31,18 +37,28 @@ function welcome() {
         <p>Just write your want to search below</p>
       </article>
 
-      <form onSubmit={handleSubmit} action="" className="my-5">
+      <form onSubmit={handleSubmit} className="my-5">
         <input
           type="text"
           value={search}
           onChange={(e) => setsearch(e.target.value)}
+          onKeyPress={(e) => (e.key === "Enter" ? handleSubmit : "")}
           className="form-input rounded-lg border border-gray-200 shadow-sm w-3/5"
-          placeholder="Type what organization you want to search"
+          placeholder="Ex: reactjs"
         />
       </form>
 
       {repos.length >= 1 ? (
         <div className="border border-gray-200 p-5 rounded-md">
+          <div className="text-xl mb-5">
+            Your result from{" "}
+            <a
+              href={`https://github.com/${storeToReadOnly}`}
+              className="text-red-400 underline"
+            >
+              {`@${storeToReadOnly}`}
+            </a>
+          </div>
           {repos.map((repo, index) => {
             return (
               <ListItem
@@ -56,7 +72,7 @@ function welcome() {
                 star={repo.stargazers_count}
                 fork={repo.forks}
                 language={repo.language}
-                license={repo.license.spdx_id}
+                license={repo.license != null ? repo.license.spdx_id : ""}
               />
             );
           })}
@@ -68,4 +84,4 @@ function welcome() {
   );
 }
 
-export default welcome;
+export default Welcome;

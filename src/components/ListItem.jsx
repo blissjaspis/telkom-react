@@ -1,3 +1,4 @@
+import { formatDistance } from "date-fns";
 import React from "react";
 
 function ListItem({
@@ -11,6 +12,8 @@ function ListItem({
   language,
   license,
 }) {
+  const diffDay = formatDistance(new Date(), new Date(update));
+
   return (
     <div className="p2 mb-5">
       <div className="flex items-center">
@@ -27,11 +30,11 @@ function ListItem({
       </div>
       <p className="text-gray-600 mb-3">{description}</p>
       <div className="flex items-center">
-        <div className="mr-5 text-sm text-gray-500">{language}</div>
+        <div className="text-sm text-gray-500 mr-2">{language}</div>
         <div className="flex flex-row items-center mr-5">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-4 w-4 mr-1"
+            className="h-4 w-4 mr-1 text-gray-500"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -48,7 +51,7 @@ function ListItem({
         <div className="flex flex-row items-center mr-5">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-4 w-4 mr-1"
+            className="h-4 w-4 mr-1 text-gray-500"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -65,7 +68,7 @@ function ListItem({
         <div className="flex flex-row items-center mr-5">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-4 w-4 mr-1"
+            className="h-4 w-4 mr-1 text-gray-500"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -79,10 +82,14 @@ function ListItem({
           </svg>
           <span className="text-gray-500 text-sm">{fork}</span>
         </div>
-        <div className="flex text-gray-500 text-sm">Updated {update}</div>
+        <div className="flex text-gray-500 text-sm">Updated {diffDay}</div>
       </div>
     </div>
   );
 }
+
+ListItem.defaultProps = {
+  language: null,
+};
 
 export default ListItem;
